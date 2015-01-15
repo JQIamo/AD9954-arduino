@@ -75,7 +75,7 @@ void AD9954::initialize(unsigned long refClk){
 }
 
 // initialize(refClk, clkMult) -- initializes DDS with input refClk, and activates the
-//      onboard PLL multiplier clkMult.
+//      on-board PLL multiplier clkMult.
 //      clkMult: must be integer between 4 and 20 inclusive.
 void AD9954::initialize(unsigned long refClk, byte clkMult){
     _refIn = refClk;
@@ -84,8 +84,8 @@ void AD9954::initialize(unsigned long refClk, byte clkMult){
     // resets DDS
     AD9954::reset();
 
-    byte multValue = clkMult;
 
+    byte multValue = clkMult;
     byte registerInfo[] = {0x01, 3};
     byte data[] = {0x18, 0x00, 0x00};
 
@@ -204,20 +204,23 @@ void AD9954::linearSweep(unsigned long freq0, unsigned long freq1, unsigned long
 
 
     // construct register values
-    byte CFR1[] = { 0x00, 0x20, 0x00, 0x00 };
-    byte CFR1Info[] = {0x00, 4};
+    //unsigned char CFR1[] = { 0x00, 0x20, 0x00, 0x00 };
+	//unsigned char CFR1Info[] = {0x00, 4};
+    unsigned char CFR1[] = { 0x00, 0x00, 0x20, 0x00, 0x00 };
+	
 
-    byte FTW0[] = {lowByte(ftw0 >> 24), lowByte(ftw0 >> 16), lowByte(ftw0 >> 8), lowByte(ftw0) };
-    byte FTW0Info[] = {0x04, 4};
+	
+    //unsigned char FTW0[] = {lowByte(ftw0 >> 24), lowByte(ftw0 >> 16), lowByte(ftw0 >> 8), lowByte(ftw0) };
+    //unsigned char FTW0Info[] = {0x04, 4};
 
-    byte FTW1[] = {lowByte(ftw1 >> 24), lowByte(ftw1 >> 16), lowByte(ftw1 >> 8), lowByte(ftw1) };
-    byte FTW1Info[] = {0x06, 4};
+    unsigned char FTW1[] = {lowByte(ftw1 >> 24), lowByte(ftw1 >> 16), lowByte(ftw1 >> 8), lowByte(ftw1) };
+    unsigned char FTW1Info[] = {0x06, 4};
 
-    byte NLSCW[] = { negRR, lowByte(negDFW >> 24), lowByte(negDFW >> 16), lowByte(negDFW >> 8), lowByte(negDFW) };
-    byte NLSCWInfo[] = {0x07, 5};
+    unsigned char NLSCW[] = { negRR, lowByte(negDFW >> 24), lowByte(negDFW >> 16), lowByte(negDFW >> 8), lowByte(negDFW) };
+    unsigned char NLSCWInfo[] = {0x07, 5};
 
-    byte PLSCW[] = { posRR, lowByte(posDFW >> 24), lowByte(posDFW >> 16), lowByte(posDFW >> 8), lowByte(posDFW) };
-    byte PLSCWInfo[] = {0x08, 5};
+    unsigned char PLSCW[] = { posRR, lowByte(posDFW >> 24), lowByte(posDFW >> 16), lowByte(posDFW >> 8), lowByte(posDFW) };
+    unsigned char PLSCWInfo[] = {0x08, 5};
     
     AD9954::writeRegister(CFR1Info, CFR1);
     AD9954::writeRegister(FTW0Info, FTW0);
@@ -239,7 +242,7 @@ void AD9954::linearSweep(unsigned long freq0, unsigned long freq1, unsigned long
 
 // Writes SPI to particular register.
 //      registerInfo is a 2-element array which contains [register, number of bytes]
-void AD9954::writeRegister(byte registerInfo[], byte data[]){
+void AD9954::writeRegister(unsigned char registerInfo[], unsigned char data[]){
 
     digitalWrite(_ssPin, LOW);
 
